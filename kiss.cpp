@@ -183,6 +183,6 @@ int main(int argc,char* argv[])
 		}
 
 	streamProcess(dict,stdin,stdout);
-
+	return 0;
 	}
 
