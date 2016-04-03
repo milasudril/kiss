@@ -89,6 +89,7 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 				switch(ch_in)
 					{
 					case '_':
+						state_prev=state;
 						state=State::ESCAPE;
 						break;
 
@@ -106,6 +107,7 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 				switch(ch_in)
 					{
 					case '_':
+						state_prev=state;
 						state=State::ESCAPE;
 						break;
 
@@ -168,7 +170,7 @@ int main(int argc,char* argv[])
 //	Load all dictionaries
 	while(argc!=1)
 		{
-		++argc;
+		++argv;
 		--argc;
 		FILE* source=fopen(*argv,"rb");
 		if(source==NULL)
