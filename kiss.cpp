@@ -131,6 +131,7 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 								return;
 								}
 							fputs(i->second.c_str(),dest);
+							putchar(ch_in);
 							}
 						else
 							{varname+=static_cast<char>(ch_in);}
