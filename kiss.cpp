@@ -62,6 +62,19 @@ void dictionaryLoad(std::map<std::string,std::string>& dict,FILE* source)
 
 			case State::ESCAPE:
 				state=state_prev;
+				switch(state)
+					{
+					case State::KEY:
+						if(ch_in!=':')
+							{buffer+='_';}
+						break;
+					case State::VALUE:
+						if(ch_in!='\n')
+							{buffer+='_';}
+						break;
+					case State::ESCAPE:
+						break;
+					}
 				buffer+=static_cast<char>( ch_in );
 				break;
 			}
@@ -112,15 +125,16 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 						break;
 
 					default:
-						if((ch_in>='\0' && ch_in<=' ') || ch_in=='['
+						if( (ch_in>='\0' && ch_in<=' ') || ch_in=='['
 							|| ch_in==']' || ch_in=='(' || ch_in==')'
-							|| ch_in==':' || ch_in==';'	|| ch_in=='-'
-							|| ch_in=='!' || ch_in=='.' || ch_in=='?'
-							|| ch_in=='"' || ch_in=='/' || ch_in=='\\'
-							|| ch_in=='&' || ch_in=='*' || ch_in=='@'
-							|| ch_in=='$' || ch_in=='^' || ch_in=='+'
-							|| ch_in=='=' || ch_in=='%' || ch_in=='~'
-							|| ch_in=='|' || ch_in=='<' || ch_in=='>')
+							|| ch_in=='{' || ch_in=='}' || ch_in==':'
+							|| ch_in==';' || ch_in=='-' || ch_in=='!'
+							|| ch_in=='.' || ch_in=='?' || ch_in=='"'
+							|| ch_in=='/' || ch_in=='\\'|| ch_in=='&'
+							|| ch_in=='*' || ch_in=='@' || ch_in=='$'
+							|| ch_in=='^' || ch_in=='+' || ch_in=='='
+							|| ch_in=='%' || ch_in=='~' || ch_in=='|'
+							|| ch_in=='<' || ch_in=='>')
 							{
 							state=State::TEXT;
 							auto i=dictionary.find(varname);
@@ -131,7 +145,7 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 								return;
 								}
 							fputs(i->second.c_str(),dest);
-							putchar(ch_in);
+							putc(ch_in,dest);
 							}
 						else
 							{varname+=static_cast<char>(ch_in);}
@@ -142,7 +156,11 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 				if(state_prev==State::VARIABLE)
 					{varname+=static_cast<char>(ch_in);}
 				else
-					{putc(ch_in,dest);}
+					{
+					if(ch_in!='$')
+						{putc('_',dest);}
+					putc(ch_in,dest);
+					}
 				state=state_prev;
 				break;
 			}
