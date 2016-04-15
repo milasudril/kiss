@@ -112,7 +112,15 @@ void streamProcess(const std::map<std::string,std::string>& dictionary
 						break;
 
 					default:
-						if(ch_in>='\0' && ch_in<=' ')
+						if((ch_in>='\0' && ch_in<=' ') || ch_in=='['
+							|| ch_in==']' || ch_in=='(' || ch_in==')'
+							|| ch_in==':' || ch_in==';'	|| ch_in=='-'
+							|| ch_in=='!' || ch_in=='.' || ch_in=='?'
+							|| ch_in=='"' || ch_in=='/' || ch_in=='\\'
+							|| ch_in=='&' || ch_in=='*' || ch_in=='@'
+							|| ch_in=='$' || ch_in=='^' || ch_in=='+'
+							|| ch_in=='=' || ch_in=='%' || ch_in=='~'
+							|| ch_in=='|' || ch_in=='<' || ch_in=='>')
 							{
 							state=State::TEXT;
 							auto i=dictionary.find(varname);

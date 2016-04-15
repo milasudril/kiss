@@ -14,6 +14,7 @@ Dictionary entries take the form
 
 and are delimited by newline
 
-Variables in the input file are delmited by `$` and any whitespace character.
+Variables in the input file are delmited by `$` and any whitespace or
+punctuation character.
 
 In both input stream and dictionaries, `_` acts as escape character.
